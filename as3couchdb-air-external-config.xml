@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<flex-config xmlns="http://www.adobe.com/2006/flex-config">
+
+	<compiler>
+    	<external-library-path>
+      		<path-element>${playerglobal.lib.dir}</path-element>
+      		<path-element>${air.lib.dir}</path-element>
+      		<path-element>${lib.dir}</path-element>
+    	</external-library-path>
+    	<source-path>
+    		<path-element>${src.dir}</path-element>
+    	</source-path>
+  	</compiler>
+  	
+  	<include-classes>
+    	<class>com.custardbelly.as3couchdb.service.AIRCouchRequest</class>
+    	<class>com.custardbelly.as3couchdb.service.AIRCouchSessionRequest</class>
+  	</include-classes>
+  	
+  	<output>${lib.bin.dir}/${lib.name}.swc</output>
+  	
+  	<metadata>
+    	<creator>Todd Anderson</creator>
+    	<description>http://github.com/bustardcelly/as3couchdb-air</description>
+    	<language>EN</language>
+    	<title>External AS3 Library For CouchDB targeting the Adobe AIR Platform</title>
+  	</metadata>
+  	
+</flex-config>
