@@ -4,7 +4,7 @@ See the accompanying LICENSE file.
 
 # About
 
-as3couchdb-air is an extension of the [http://github.com/bustardcelly/as3couchdb]as3couchdb project (an ActionScript 3 clientside API for interacting with a CouchDB instance)
+as3couchdb-air is an extension of the [http://github.com/bustardcelly/as3couchdb](as3couchdb) project (an ActionScript 3 clientside API for interacting with a CouchDB instance)
 that takes advantage of the capabilities provided in the Adobe AIR Platform.
 
 # Requirements
