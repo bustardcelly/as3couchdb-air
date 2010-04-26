@@ -5,9 +5,9 @@ The as3couchdb-air project generates library SWC and optimized SWF files into tw
 ## standalone
 
 The standalone bin contains the library SWC and optimized SWF that can be added to the library
-of a project without the need of having the dependant [http://github.com/bustardcelly/as3couchdb/]as3couchdb library and any other ancillary SWC libraries 
+of a project without the need of having the dependant [as3couchdb](http://github.com/bustardcelly/as3couchdb/) library and any other ancillary SWC libraries 
 (as3corelib, as3crypto, as3httpclientlib) included in the project library. 
-The standalone [http://github.com/bustardcelly/as3couchdb/tree/master/bin/standalone/]as3couchdb-air swc, compiles in the as3couchdb standalone library. 
+The standalone [as3couchdb-air swc](http://github.com/bustardcelly/as3couchdb/tree/master/bin/standalone/), compiles in the as3couchdb standalone library. 
 As such, the file size for the standalone SWC is higher than the external library, as it has dependencies compiled in. 
 If you are not worried about file size and/or you do not want to manage dependencies in your project library, 
 use the standalone SWC or SWF.
@@ -15,7 +15,7 @@ use the standalone SWC or SWF.
 ## external
 
 The external bin contains the library SWC and optimized SWF that is compiled against dependant SWC libraries:
-[http://github.com/bustardcelly/as3couchdb/tree/master/bin/standalone/]as3couchdb-air. Included in the external SWC are only the source files 
+[as3couchdb-air](http://github.com/bustardcelly/as3couchdb/tree/master/bin/standalone/). Included in the external SWC are only the source files 
 from the as3couchdb-air library. As such, the file size for the external SWC is lower than the standalone
 yet it is necessary to include the dependant libraries (as3couchdb, as3corelib, as3crypto, as3httpclientlib) within your project. If you are worried about
 file size and/or are fine with managing library dependencies, use the external SWC or SWF.
@@ -26,7 +26,7 @@ The as3couchdb library depends on the following libraries in order to compile:
 
 ## as3couchdb
 
-The as3couchdb-air library is built against the [http://github.com/bustardcelly/as3couchdb/tree/master/bin/standalone/]standalone version of [http://github.com/bustardcelly/as3couchdb]as3couchdb.
+The as3couchdb-air library is built against the [standalone version](http://github.com/bustardcelly/as3couchdb/tree/master/bin/standalone/) of [as3couchdb](http://github.com/bustardcelly/as3couchdb).
 
 # Addition Dependencies
 
