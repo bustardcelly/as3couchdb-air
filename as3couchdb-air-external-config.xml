@@ -14,7 +14,6 @@
   	
   	<include-classes>
     	<class>com.custardbelly.as3couchdb.service.AIRCouchRequest</class>
-    	<class>com.custardbelly.as3couchdb.service.AIRCouchSessionRequest</class>
   	</include-classes>
   	
   	<output>${lib.bin.dir}/${lib.name}.swc</output>

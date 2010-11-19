@@ -1,7 +1,7 @@
 /**
  * <p>Original Author: toddanderson</p>
  * <p>Class File: AIRCouchRequest.as</p>
- * <p>Version: 0.1</p>
+ * <p>Version: 0.2</p>
  *
  * <p>Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,10 @@ package com.custardbelly.as3couchdb.service
 	import com.custardbelly.as3couchdb.core.CouchServiceFault;
 	import com.custardbelly.as3couchdb.core.CouchServiceResult;
 	import com.custardbelly.as3couchdb.enum.CouchActionType;
+	import com.custardbelly.as3couchdb.enum.CouchHeaderType;
+	import com.custardbelly.as3couchdb.enum.CouchRequestMethod;
 	import com.custardbelly.as3couchdb.event.CouchEvent;
+	import com.custardbelly.as3couchdb.net.CouchSessionResponse;
 	import com.custardbelly.as3couchdb.responder.ICouchServiceResponder;
 	
 	import flash.events.Event;
@@ -39,6 +42,7 @@ package com.custardbelly.as3couchdb.service
 	import flash.events.SecurityErrorEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import flash.net.URLRequestHeader;
 	
 	/**
 	 * AIRCouchRequest handles making and responding to requests to the CouchDB instance using air global specific classes.
@@ -46,7 +50,9 @@ package com.custardbelly.as3couchdb.service
 	 */
 	public class AIRCouchRequest extends AbstractCouchRequest
 	{
-		protected var  _loader:URLLoader;
+		protected var _loader:URLLoader;
+		protected var _sessionCookie:String;
+		protected var _isRequestingSessionCookie:Boolean;
 		
 		/**
 		 * Constructor.
@@ -88,6 +94,28 @@ package com.custardbelly.as3couchdb.service
 		/**
 		 * @private
 		 * 
+		 * Determines the service result object based on session request flag. 
+		 * @param value Object
+		 * @return Object
+		 */
+		protected function determineResult( value:Object ):Object
+		{
+			var object:Object;
+			var jsonResult:Object = JSON.decode( value.toString() );
+			if( _isRequestingSessionCookie )
+			{
+				object = new CouchSessionResponse( _sessionCookie, jsonResult );
+			}
+			else
+			{
+				object = jsonResult;
+			}
+			return object;
+		}
+		
+		/**
+		 * @private
+		 * 
 		 * Event handler for HTTPStatus. 
 		 * @param evt HTTPStatusEvent
 		 */
@@ -104,8 +132,22 @@ package com.custardbelly.as3couchdb.service
 		 */
 		protected function handleHTTPResponseStatus( evt:HTTPStatusEvent ):void
 		{
-			// abstract to respond to headers.
-			var headers:Array = evt.responseHeaders;
+			// Cycle through response headers and see if we can find a cookie.
+			if( _isRequestingSessionCookie )
+			{
+				var headers:Array = evt.responseHeaders;
+				var i:int = headers.length;
+				var header:URLRequestHeader;
+				while( --i > -1 )
+				{
+					header = headers[i] as URLRequestHeader;
+					if( header.name == CouchHeaderType.SESSION_COOKIE )
+					{
+						_sessionCookie = header.value;
+						break;
+					}
+				}
+			}
 		}
 		
 		/**
@@ -139,7 +181,7 @@ package com.custardbelly.as3couchdb.service
 		protected function handleResponseComplete( evt:Event ):void
 		{
 			var result:Object = ( evt.target as URLLoader ).data;
-			respondToResult( CouchEvent.RESULT, JSON.decode( result.toString() ) );
+			respondToResult( CouchEvent.RESULT, determineResult( result ) );
 		}
 		
 		/**
@@ -148,7 +190,8 @@ package com.custardbelly.as3couchdb.service
 		override public function execute( request:URLRequest, requestType:String, responder:ICouchServiceResponder ):void
 		{
 			super.execute( request, requestType, responder );
-			request.method = requestType;
+			request.method = ( requestType == CouchRequestMethod.SESSION ) ? CouchRequestMethod.POST : requestType;
+			_isRequestingSessionCookie = ( requestType == CouchRequestMethod.SESSION );
 			_loader.load( request );
 		}
 		
